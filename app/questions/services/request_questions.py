@@ -24,14 +24,13 @@ class QuestionsService:
         while 1:
             data = await self.request_questions(count)
             if not await self.check_records_exist([i["id"] for i in data]):
-                last = await self.select_last_record()
                 data = parse_obj_as(list[BaseQuestion], data)
                 await self.create_record(data)
-                return last
+                return await self.select_last_record()
 
     async def select_last_record(self) -> str | None:
         stmt = select(Question.question).order_by(Question.id.desc())
-        return await self.db_session.scalar(stmt)
+        return await self.db_session.scalar(stmt.slice(1, 2))
 
     async def check_records_exist(self, data: list[int]) -> bool:
         stmt = select(Question).where(Question.question_id.in_(data))
