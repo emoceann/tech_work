@@ -4,7 +4,8 @@
 Инструкция по запуску:
 
 1. Заполнить dev.env
-2. Выполнить команду : docker compose up --build
+2. Отредактировать переменную "sqlalchemy.url" в alembic.ini
+3. Выполнить команду : docker compose up --build
 
 тестировать по эндпоинту "questions/" POST запросом http-метода => полный адрес
 
